@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
+import { UserOptions } from 'jspdf-autotable'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -128,7 +129,7 @@ export default function InvoiceGenerator() {
       startY: 80,
       head: [['Description', 'Quantity', 'Unit Price', 'Total']],
       body: tableData,
-    })
+    } as UserOptions)
 
     // Add totals
     const finalY = (doc as any).lastAutoTable.finalY + 10
