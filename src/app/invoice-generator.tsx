@@ -25,6 +25,13 @@ interface Toast {
   type: 'error' | 'success'
 }
 
+// Custom type for jsPDF with autoTable
+interface JsPDFWithAutoTable extends jsPDF {
+  lastAutoTable: {
+    finalY: number
+  }
+}
+
 export default function InvoiceGenerator() {
   const [companyName, setCompanyName] = useState('')
   const [customerName, setCustomerName] = useState('')
@@ -106,7 +113,7 @@ export default function InvoiceGenerator() {
   const handleDownload = () => {
     if (!validateForm()) return
 
-    const doc = new jsPDF()
+    const doc = new jsPDF() as JsPDFWithAutoTable
 
     // Add invoice header
     doc.setFontSize(20)
@@ -132,7 +139,7 @@ export default function InvoiceGenerator() {
     } as UserOptions)
 
     // Add totals
-    const finalY = (doc as any).lastAutoTable.finalY + 10
+    const finalY = doc.lastAutoTable.finalY + 10
     doc.text(`Subtotal: $${calculateSubtotal().toFixed(2)}`, 140, finalY)
     doc.text(`Tax (10%): $${(calculateSubtotal() * 0.1).toFixed(2)}`, 140, finalY + 10)
     doc.text(`Total: $${calculateTotal().toFixed(2)}`, 140, finalY + 20)
