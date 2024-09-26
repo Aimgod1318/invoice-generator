@@ -27,9 +27,10 @@ interface Toast {
 
 // Custom type for jsPDF with autoTable
 interface JsPDFWithAutoTable extends jsPDF {
+  autoTable: (options: UserOptions) => void;
   lastAutoTable: {
-    finalY: number
-  }
+    finalY: number;
+  };
 }
 
 export default function InvoiceGenerator() {
@@ -136,7 +137,7 @@ export default function InvoiceGenerator() {
       startY: 80,
       head: [['Description', 'Quantity', 'Unit Price', 'Total']],
       body: tableData,
-    } as UserOptions)
+    })
 
     // Add totals
     const finalY = doc.lastAutoTable.finalY + 10
